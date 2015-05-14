@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Project");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Project");
             this.cmsProj = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuCreateProj = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -43,7 +43,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtP_ProjID = new System.Windows.Forms.TextBox();
             this.tabConn = new DevExpress.XtraTab.XtraTabPage();
-            this.cboC_ConnType = new System.Windows.Forms.ComboBox();
+            this.txtC_ConnType = new DevExpress.XtraEditors.LookUpEdit();
             this.label21 = new System.Windows.Forms.Label();
             this.btnC_Save = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -57,17 +57,13 @@
             this.tabs_Dev = new DevExpress.XtraTab.XtraTabControl();
             this.tagD_Modbus = new DevExpress.XtraTab.XtraTabPage();
             this.label20 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtD_MB_IP = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label23 = new System.Windows.Forms.Label();
-            this.txtD_Delay = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.txtD_Timeout = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnD_Save = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.txtD_DeviceName = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -88,7 +84,7 @@
             this.cboT_MBRegType = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnT_Save = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.txtT_TagName = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -103,11 +99,15 @@
             this.label11 = new System.Windows.Forms.Label();
             this.txtT_ProjID = new System.Windows.Forms.TextBox();
             this.cmsConn = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.createConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCreateConn = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsDevice = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCreateDevice = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsTags = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.createTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtD_MB_Port = new DevExpress.XtraEditors.TextEdit();
+            this.txtD_MB_SlaveAddress = new DevExpress.XtraEditors.TextEdit();
+            this.txtD_Timeout = new DevExpress.XtraEditors.TextEdit();
+            this.txtD_Delay = new DevExpress.XtraEditors.TextEdit();
             this.cmsProj.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -118,6 +118,7 @@
             this.tabs.SuspendLayout();
             this.tabProj.SuspendLayout();
             this.tabConn.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtC_ConnType.Properties)).BeginInit();
             this.tabDev.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabs_Dev)).BeginInit();
             this.tabs_Dev.SuspendLayout();
@@ -131,6 +132,10 @@
             this.cmsConn.SuspendLayout();
             this.cmsDevice.SuspendLayout();
             this.cmsTags.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtD_MB_Port.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtD_MB_SlaveAddress.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtD_Timeout.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtD_Delay.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // cmsProj
@@ -180,11 +185,11 @@
             this.trvMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trvMain.Location = new System.Drawing.Point(3, 16);
             this.trvMain.Name = "trvMain";
-            treeNode2.ContextMenuStrip = this.cmsProj;
-            treeNode2.Name = "Project";
-            treeNode2.Text = "Project";
+            treeNode4.ContextMenuStrip = this.cmsProj;
+            treeNode4.Name = "Project";
+            treeNode4.Text = "Project";
             this.trvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode4});
             this.trvMain.Size = new System.Drawing.Size(245, 485);
             this.trvMain.TabIndex = 0;
             this.trvMain.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvMain_NodeMouseDoubleClick);
@@ -261,7 +266,7 @@
             // 
             // tabConn
             // 
-            this.tabConn.Controls.Add(this.cboC_ConnType);
+            this.tabConn.Controls.Add(this.txtC_ConnType);
             this.tabConn.Controls.Add(this.label21);
             this.tabConn.Controls.Add(this.btnC_Save);
             this.tabConn.Controls.Add(this.label4);
@@ -275,13 +280,16 @@
             this.tabConn.Size = new System.Drawing.Size(608, 476);
             this.tabConn.Text = "Connection";
             // 
-            // cboC_ConnType
+            // txtC_ConnType
             // 
-            this.cboC_ConnType.FormattingEnabled = true;
-            this.cboC_ConnType.Location = new System.Drawing.Point(111, 112);
-            this.cboC_ConnType.Name = "cboC_ConnType";
-            this.cboC_ConnType.Size = new System.Drawing.Size(121, 21);
-            this.cboC_ConnType.TabIndex = 11;
+            this.txtC_ConnType.Enabled = false;
+            this.txtC_ConnType.Location = new System.Drawing.Point(112, 115);
+            this.txtC_ConnType.Name = "txtC_ConnType";
+            this.txtC_ConnType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtC_ConnType.Properties.ImmediatePopup = true;
+            this.txtC_ConnType.Size = new System.Drawing.Size(282, 20);
+            this.txtC_ConnType.TabIndex = 11;
             // 
             // label21
             // 
@@ -300,6 +308,7 @@
             this.btnC_Save.TabIndex = 9;
             this.btnC_Save.Text = "Save";
             this.btnC_Save.UseVisualStyleBackColor = true;
+            this.btnC_Save.Click += new System.EventHandler(this.btnC_Save_Click);
             // 
             // label4
             // 
@@ -330,6 +339,7 @@
             // 
             this.txtC_ConnID.Location = new System.Drawing.Point(111, 60);
             this.txtC_ConnID.Name = "txtC_ConnID";
+            this.txtC_ConnID.ReadOnly = true;
             this.txtC_ConnID.Size = new System.Drawing.Size(100, 20);
             this.txtC_ConnID.TabIndex = 5;
             // 
@@ -381,12 +391,12 @@
             // 
             // tagD_Modbus
             // 
+            this.tagD_Modbus.Controls.Add(this.txtD_MB_SlaveAddress);
+            this.tagD_Modbus.Controls.Add(this.txtD_MB_Port);
             this.tagD_Modbus.Controls.Add(this.label20);
-            this.tagD_Modbus.Controls.Add(this.textBox5);
             this.tagD_Modbus.Controls.Add(this.label19);
-            this.tagD_Modbus.Controls.Add(this.textBox4);
             this.tagD_Modbus.Controls.Add(this.label18);
-            this.tagD_Modbus.Controls.Add(this.textBox3);
+            this.tagD_Modbus.Controls.Add(this.txtD_MB_IP);
             this.tagD_Modbus.Name = "tagD_Modbus";
             this.tagD_Modbus.Size = new System.Drawing.Size(602, 262);
             this.tagD_Modbus.Text = "Modbus";
@@ -400,13 +410,6 @@
             this.label20.TabIndex = 29;
             this.label20.Text = "Slave Address:";
             // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(110, 67);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 20);
-            this.textBox5.TabIndex = 28;
-            // 
             // label19
             // 
             this.label19.AutoSize = true;
@@ -415,13 +418,6 @@
             this.label19.Size = new System.Drawing.Size(29, 13);
             this.label19.TabIndex = 27;
             this.label19.Text = "Port:";
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(110, 41);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 20);
-            this.textBox4.TabIndex = 26;
             // 
             // label18
             // 
@@ -432,20 +428,21 @@
             this.label18.TabIndex = 25;
             this.label18.Text = "IP Address:";
             // 
-            // textBox3
+            // txtD_MB_IP
             // 
-            this.textBox3.Location = new System.Drawing.Point(110, 15);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 24;
+            this.txtD_MB_IP.Location = new System.Drawing.Point(110, 15);
+            this.txtD_MB_IP.Name = "txtD_MB_IP";
+            this.txtD_MB_IP.Size = new System.Drawing.Size(100, 20);
+            this.txtD_MB_IP.TabIndex = 24;
+            this.txtD_MB_IP.Validating += new System.ComponentModel.CancelEventHandler(this.txtD_MB_IP_Validating);
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label23);
             this.groupBox2.Controls.Add(this.txtD_Delay);
-            this.groupBox2.Controls.Add(this.label22);
             this.groupBox2.Controls.Add(this.txtD_Timeout);
-            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.label23);
+            this.groupBox2.Controls.Add(this.label22);
+            this.groupBox2.Controls.Add(this.btnD_Save);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.txtD_DeviceName);
             this.groupBox2.Controls.Add(this.label9);
@@ -472,13 +469,6 @@
             this.label23.TabIndex = 30;
             this.label23.Text = "Delay:";
             // 
-            // txtD_Delay
-            // 
-            this.txtD_Delay.Location = new System.Drawing.Point(271, 141);
-            this.txtD_Delay.Name = "txtD_Delay";
-            this.txtD_Delay.Size = new System.Drawing.Size(100, 20);
-            this.txtD_Delay.TabIndex = 29;
-            // 
             // label22
             // 
             this.label22.AutoSize = true;
@@ -488,21 +478,15 @@
             this.label22.TabIndex = 28;
             this.label22.Text = "Timeout:";
             // 
-            // txtD_Timeout
+            // btnD_Save
             // 
-            this.txtD_Timeout.Location = new System.Drawing.Point(111, 141);
-            this.txtD_Timeout.Name = "txtD_Timeout";
-            this.txtD_Timeout.Size = new System.Drawing.Size(100, 20);
-            this.txtD_Timeout.TabIndex = 27;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(515, 11);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 26;
-            this.button1.Text = "Save";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnD_Save.Location = new System.Drawing.Point(515, 11);
+            this.btnD_Save.Name = "btnD_Save";
+            this.btnD_Save.Size = new System.Drawing.Size(75, 23);
+            this.btnD_Save.TabIndex = 26;
+            this.btnD_Save.Text = "Save";
+            this.btnD_Save.UseVisualStyleBackColor = true;
+            this.btnD_Save.Click += new System.EventHandler(this.btnD_Save_Click);
             // 
             // label8
             // 
@@ -533,6 +517,7 @@
             // 
             this.txtD_DeviceID.Location = new System.Drawing.Point(111, 89);
             this.txtD_DeviceID.Name = "txtD_DeviceID";
+            this.txtD_DeviceID.ReadOnly = true;
             this.txtD_DeviceID.Size = new System.Drawing.Size(100, 20);
             this.txtD_DeviceID.TabIndex = 22;
             // 
@@ -672,7 +657,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.btnT_Save);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.txtT_TagName);
             this.groupBox1.Controls.Add(this.label14);
@@ -693,14 +678,14 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
-            // button2
+            // btnT_Save
             // 
-            this.button2.Location = new System.Drawing.Point(515, 11);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 37;
-            this.button2.Text = "Save";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnT_Save.Location = new System.Drawing.Point(515, 11);
+            this.btnT_Save.Name = "btnT_Save";
+            this.btnT_Save.Size = new System.Drawing.Size(75, 23);
+            this.btnT_Save.TabIndex = 37;
+            this.btnT_Save.Text = "Save";
+            this.btnT_Save.UseVisualStyleBackColor = true;
             // 
             // label13
             // 
@@ -731,6 +716,7 @@
             // 
             this.txtT_TagID.Location = new System.Drawing.Point(111, 107);
             this.txtT_TagID.Name = "txtT_TagID";
+            this.txtT_TagID.ReadOnly = true;
             this.txtT_TagID.Size = new System.Drawing.Size(100, 20);
             this.txtT_TagID.TabIndex = 33;
             // 
@@ -818,28 +804,30 @@
             // cmsConn
             // 
             this.cmsConn.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createConnectionToolStripMenuItem});
+            this.mnuCreateConn});
             this.cmsConn.Name = "cmsConn";
             this.cmsConn.Size = new System.Drawing.Size(174, 26);
             // 
-            // createConnectionToolStripMenuItem
+            // mnuCreateConn
             // 
-            this.createConnectionToolStripMenuItem.Name = "createConnectionToolStripMenuItem";
-            this.createConnectionToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.createConnectionToolStripMenuItem.Text = "Create Connection";
+            this.mnuCreateConn.Name = "mnuCreateConn";
+            this.mnuCreateConn.Size = new System.Drawing.Size(173, 22);
+            this.mnuCreateConn.Text = "Create Connection";
+            this.mnuCreateConn.Click += new System.EventHandler(this.mnuCreateConn_Click);
             // 
             // cmsDevice
             // 
             this.cmsDevice.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
+            this.mnuCreateDevice});
             this.cmsDevice.Name = "cmsConn";
             this.cmsDevice.Size = new System.Drawing.Size(147, 26);
             // 
-            // toolStripMenuItem1
+            // mnuCreateDevice
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(146, 22);
-            this.toolStripMenuItem1.Text = "Create Device";
+            this.mnuCreateDevice.Name = "mnuCreateDevice";
+            this.mnuCreateDevice.Size = new System.Drawing.Size(146, 22);
+            this.mnuCreateDevice.Text = "Create Device";
+            this.mnuCreateDevice.Click += new System.EventHandler(this.mnuCreateDevice_Click);
             // 
             // cmsTags
             // 
@@ -853,6 +841,38 @@
             this.createTagToolStripMenuItem.Name = "createTagToolStripMenuItem";
             this.createTagToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.createTagToolStripMenuItem.Text = "Create Tag";
+            // 
+            // txtD_MB_Port
+            // 
+            this.txtD_MB_Port.Location = new System.Drawing.Point(110, 41);
+            this.txtD_MB_Port.Name = "txtD_MB_Port";
+            this.txtD_MB_Port.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtD_MB_Port.Size = new System.Drawing.Size(100, 20);
+            this.txtD_MB_Port.TabIndex = 30;
+            // 
+            // txtD_MB_SlaveAddress
+            // 
+            this.txtD_MB_SlaveAddress.Location = new System.Drawing.Point(110, 67);
+            this.txtD_MB_SlaveAddress.Name = "txtD_MB_SlaveAddress";
+            this.txtD_MB_SlaveAddress.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtD_MB_SlaveAddress.Size = new System.Drawing.Size(100, 20);
+            this.txtD_MB_SlaveAddress.TabIndex = 31;
+            // 
+            // txtD_Timeout
+            // 
+            this.txtD_Timeout.Location = new System.Drawing.Point(111, 141);
+            this.txtD_Timeout.Name = "txtD_Timeout";
+            this.txtD_Timeout.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtD_Timeout.Size = new System.Drawing.Size(100, 20);
+            this.txtD_Timeout.TabIndex = 32;
+            // 
+            // txtD_Delay
+            // 
+            this.txtD_Delay.Location = new System.Drawing.Point(271, 141);
+            this.txtD_Delay.Name = "txtD_Delay";
+            this.txtD_Delay.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtD_Delay.Size = new System.Drawing.Size(100, 20);
+            this.txtD_Delay.TabIndex = 33;
             // 
             // frmTry
             // 
@@ -876,6 +896,7 @@
             this.tabProj.PerformLayout();
             this.tabConn.ResumeLayout(false);
             this.tabConn.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtC_ConnType.Properties)).EndInit();
             this.tabDev.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tabs_Dev)).EndInit();
             this.tabs_Dev.ResumeLayout(false);
@@ -893,6 +914,10 @@
             this.cmsConn.ResumeLayout(false);
             this.cmsDevice.ResumeLayout(false);
             this.cmsTags.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtD_MB_Port.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtD_MB_SlaveAddress.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtD_Timeout.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtD_Delay.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -905,9 +930,9 @@
         private System.Windows.Forms.ContextMenuStrip cmsProj;
         private System.Windows.Forms.ToolStripMenuItem mnuCreateProj;
         private System.Windows.Forms.ContextMenuStrip cmsConn;
-        private System.Windows.Forms.ToolStripMenuItem createConnectionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuCreateConn;
         private System.Windows.Forms.ContextMenuStrip cmsDevice;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem mnuCreateDevice;
         private System.Windows.Forms.ContextMenuStrip cmsTags;
         private System.Windows.Forms.ToolStripMenuItem createTagToolStripMenuItem;
         private DevExpress.XtraTab.XtraTabControl tabs;
@@ -944,7 +969,7 @@
         private System.Windows.Forms.TextBox txtT_ProjID;
         private DevExpress.XtraTab.XtraTabControl tabs_Tag;
         private DevExpress.XtraTab.XtraTabPage tagT_Modbus;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnT_Save;
         private System.Windows.Forms.ComboBox cboT_MBRegType;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox textBox1;
@@ -954,7 +979,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private DevExpress.XtraTab.XtraTabControl tabs_Dev;
         private DevExpress.XtraTab.XtraTabPage tagD_Modbus;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnD_Save;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtD_DeviceName;
         private System.Windows.Forms.Label label9;
@@ -966,16 +991,16 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtD_ProjID;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtD_MB_IP;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.ComboBox cboC_ConnType;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.TextBox txtD_Delay;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox txtD_Timeout;
+        private DevExpress.XtraEditors.LookUpEdit txtC_ConnType;
+        private DevExpress.XtraEditors.TextEdit txtD_MB_Port;
+        private DevExpress.XtraEditors.TextEdit txtD_MB_SlaveAddress;
+        private DevExpress.XtraEditors.TextEdit txtD_Delay;
+        private DevExpress.XtraEditors.TextEdit txtD_Timeout;
     }
 }

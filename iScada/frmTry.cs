@@ -1,6 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Data;
+using System.Net;
 
 namespace iScada
 {
@@ -11,9 +14,142 @@ namespace iScada
             InitializeComponent();
         }
 
+        private void btnC_Save_Click(object sender, EventArgs e)
+        {
+            if (txtC_ConnName.Text.Trim() == "")
+            {
+                MessageBox.Show("Please enter connection name");
+                txtC_ConnName.Focus();
+                return;
+            }
+            try
+            {
+                using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+                {
+                    cn.Open();
+                    string q = "";
+                    if (btnC_Save.Text == "Create")
+                        q = "insert into MastConn (ProjectID, ConnID, ConnName, ConnTypeID) " +
+                                "values (" +
+                                txtC_ProjID.Text + ", " +
+                                txtC_ConnID.Text + ", '" +
+                                txtC_ConnName.Text + "', " +
+                                txtC_ConnType.EditValue.ToString() + ")" ;
+                    else
+                        q = "update MastConn set " +
+                             " ConnName = '" + txtC_ConnName.Text.Trim() + "' " +
+                             "where ProjectID = " + txtC_ProjID.Text +
+                             " and ConnID = " + txtC_ConnID.Text ;
+
+
+                    MySqlCommand cmd = new MySqlCommand(q, cn);
+                    int i = cmd.ExecuteNonQuery();
+
+                    btnC_Save.Text = "Save";
+                    txtC_ConnType.Enabled = false;
+
+                    loadTree();
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnD_Save_Click(object sender, EventArgs e)
+        {
+            if (txtD_DeviceName.Text.Trim() == "")
+            {
+                MessageBox.Show("Please enter device name");
+                txtD_DeviceName.Focus();
+                return;
+            }
+            try
+            {
+                using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+                {
+                    cn.Open();
+                    string q = "";
+                    if (btnD_Save.Text == "Create")
+                        q = "insert into MastDevice (ProjectID, ConnID, DeviceID, DeviceName, TimeOut, Delay, " +
+                                "MB_IP, MB_Port, MB_SlaveAddress" +
+                                " ) " +
+                                "values (" + txtD_ProjID.Text + ", " +
+                                txtD_ConnID.Text + ", " +
+                                txtD_DeviceID.Text + ", " +
+                                "'" + txtD_DeviceName.Text.Trim() + "', " +
+                                txtD_Timeout.Text + ", " +
+                                txtD_Delay.Text + ", " +
+                                "'" + txtD_MB_IP.Text + "', " +
+                                txtD_MB_Port.Text + ", " +
+                                txtD_MB_SlaveAddress.Text +
+                                " )";
+                    else
+                        q = "update MastDevice set " +
+                            "DeviceName = '" + txtD_DeviceName.Text.Trim() + "', " +
+                            "Timeout = " + txtD_Timeout.Text + ", " +
+                            "Delay = " + txtD_Delay.Text + ", " +
+                            "MB_IP = '" + txtD_MB_IP.Text + "', " +
+                            "MB_Port = " + txtD_MB_Port.Text + ", " +
+                            "MB_SlaveAddress = " + txtD_MB_SlaveAddress.Text + " " +
+                            "where DeviceID = " + txtD_DeviceID.Text + "";
+
+
+                    MySqlCommand cmd = new MySqlCommand(q, cn);
+                    int i = cmd.ExecuteNonQuery();
+
+                    btnD_Save.Text = "Save";
+
+                    loadTree();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnP_Save_Click(object sender, EventArgs e)
+        {
+            if (txtP_ProjName.Text.Trim() == "")
+            {
+                MessageBox.Show("Please enter project name");
+                txtP_ProjName.Focus();
+                return;
+            }
+
+            try
+            {
+                using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+                {
+                    cn.Open();
+                    string q = "";
+                    if (btnP_Save.Text == "Create")
+                        q = "insert into MastProject (ProjectID, ProjectName) " +
+                                "values (" + txtP_ProjID.Text + ", '" + txtP_ProjName.Text.Trim() + "')";
+                    else
+                        q = "update MastProject set ProjectName = '" + txtP_ProjName.Text.Trim() + "' where ProjectID = " + txtP_ProjID.Text;
+
+
+                    MySqlCommand cmd = new MySqlCommand(q, cn);
+                    int i = cmd.ExecuteNonQuery();
+
+                    btnP_Save.Text = "Save";
+
+                    loadTree();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
         private void frmTry_Load(object sender, EventArgs e)
         {
             loadTree();
+            loadConnType();
 
             foreach (DevExpress.XtraTab.XtraTabPage t in tabs.TabPages)
             {
@@ -56,6 +192,62 @@ namespace iScada
             }
         }
 
+        private void loadConnType()
+        {
+            using(MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            {
+                try
+                {
+                    cn.Open();
+                    MySqlDataAdapter da = new MySqlDataAdapter("Select ConnTypeID, ConnType from KDSConnType", cn);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds, "RESULT");
+
+                    BindingSource bs = new BindingSource();
+                    bs.DataSource = ds;
+                    bs.DataMember = "RESULT";
+
+                    txtC_ConnType.DataBindings.Add("EditValue", bs, "ConnTypeID");
+                    txtC_ConnType.Properties.DataSource = bs;
+
+
+                    txtC_ConnType.Properties.DisplayMember = "ConnType";
+                    txtC_ConnType.Properties.ValueMember = "ConnTypeID";
+                    txtC_ConnType.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoComplete;
+
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+        }
+        private void loadConnValues()
+        {
+            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            {
+                try
+                {
+                    cn.Open();
+                    string qry = "select * from v_conn " +
+                                    "where ProjectID = " + txtC_ProjID.Text + " and ConnID = " + txtC_ConnID.Text;
+                    MySqlCommand cmd = new MySqlCommand(qry, cn);
+                    MySqlDataReader dr = cmd.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        txtC_ConnName.Text = dr["ConnName"].ToString();
+                        txtC_ConnType.EditValue = dr["ConnTypeID"];
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+        }
+
         private void loadDevice(TreeNode proj, TreeNode conn)
         {
             try
@@ -86,6 +278,36 @@ namespace iScada
             }
         }
 
+        private void loadDeviceValues()
+        {
+            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            {
+                try
+                {
+                    cn.Open();
+                    string qry = "select * from v_dev " +
+                                 "where DeviceID = " + txtD_DeviceID.Text + "";
+                    MySqlCommand cmd = new MySqlCommand(qry, cn);
+                    MySqlDataReader dr = cmd.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        txtD_DeviceName.Text = dr["DeviceName"].ToString();
+                        txtD_Timeout.Text = dr["Timeout"].ToString();
+                        txtD_Delay.Text = dr["Delay"].ToString();
+
+                        //MODBUS Ethernet
+                        txtD_MB_IP.Text = dr["MB_IP"].ToString();
+                        txtD_MB_Port.Text = dr["MB_Port"].ToString();
+                        txtD_MB_SlaveAddress.Text = dr["MB_SlaveAddress"].ToString();
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+        }
         /// <summary>
         /// Load Tags in tree view.
         /// </summary>
@@ -166,6 +388,62 @@ namespace iScada
             }
         }
 
+        private void mnuCreateConn_Click(object sender, EventArgs e)
+        {
+            tabConn.PageVisible = true;
+            tabs.SelectedTabPage = tabConn;
+
+            //get max conn number
+
+            using(MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr) )
+            {
+                cn.Open();
+                MySqlCommand cmd = new MySqlCommand("Select ifNull(max(ConnID),1)+1 from MastConn ", cn);
+                object i = cmd.ExecuteScalar();
+
+                txtC_ConnID.Text = i.ToString();
+            }
+
+            txtC_ProjID.Text = trvMain.SelectedNode.Tag.ToString();
+            txtC_ProjName.Text = trvMain.SelectedNode.Text;
+            txtC_ConnName.Text = "";
+            txtC_ConnName.Focus();
+            txtC_ConnType.Enabled = true;
+            btnC_Save.Text = "Create";
+        }
+
+        private void mnuCreateDevice_Click(object sender, EventArgs e)
+        {
+            tabDev.PageVisible = true;
+            tabs.SelectedTabPage = tabDev;
+
+            //get max device number
+
+            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            {
+                cn.Open();
+                MySqlCommand cmd = new MySqlCommand("Select ifNull(max(DeviceID),1)+1 from MastDevice ", cn);
+                object i = cmd.ExecuteScalar();
+
+                txtD_DeviceID.Text = i.ToString();
+            }
+
+            txtD_ProjID.Text = trvMain.SelectedNode.Parent.Tag.ToString();
+            txtD_ProjName.Text = trvMain.SelectedNode.Parent.Text;
+            txtD_ConnID.Text = trvMain.SelectedNode.Tag.ToString();
+            txtD_ConnName.Text = trvMain.SelectedNode.Text;
+            txtD_DeviceName.Text = "";
+            txtD_Timeout.Text = "";
+
+            txtD_Delay.Text = "";
+            txtD_MB_IP.Text = "";
+            txtD_MB_Port.Text = "";
+            txtD_MB_SlaveAddress.Text = "";
+            
+            btnD_Save.Text = "Create";
+            txtD_DeviceName.Focus();
+        }
+
         private void mnuCreateProj_Click(object sender, EventArgs e)
         {
             tabProj.PageVisible = true;
@@ -223,6 +501,11 @@ namespace iScada
                     TreeNode pj = tn.Parent;
                     txtC_ProjID.Text = pj.Tag.ToString();
                     txtC_ProjName.Text = pj.Text.ToString();
+                    txtC_ConnID.Text = tn.Tag.ToString();
+
+                    //proc to load textboxes from db
+                    loadConnValues();
+
                     break;
 
                 case "dev":
@@ -239,6 +522,9 @@ namespace iScada
                     TreeNode dpj = dcn.Parent;
                     txtD_ProjID.Text = dpj.Tag.ToString();
                     txtD_ProjName.Text = dpj.Text.ToString();
+
+                    //proc to load textboxes from db
+                    loadDeviceValues();
                     break;
 
                 case "tag":
@@ -260,40 +546,16 @@ namespace iScada
             }
         }
 
-        private void btnP_Save_Click(object sender, EventArgs e)
+        private void txtD_MB_IP_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (txtP_ProjName.Text.Trim() == "")
+            IPAddress add;
+            if (!IPAddress.TryParse(txtD_MB_IP.Text, out add))
             {
-                MessageBox.Show("Please enter project name");
-                txtP_ProjName.Focus();
-                return;
+                MessageBox.Show("Invalid IP address.");
+                e.Cancel = true;
             }
-
-            try
-            {
-                using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
-                {
-                    cn.Open();
-                    string q ="";
-                    if (btnP_Save.Text == "Create")
-                        q = "insert into MastProject (ProjectID, ProjectName) " +
-                                "values (" + txtP_ProjID.Text + ", '" + txtP_ProjName.Text.Trim() + "')";
-                    else
-                        q = "update MastProject set ProjectName = '" + txtP_ProjName.Text.Trim() + "' where ProjectID = " + txtP_ProjID.Text;
-
-
-                    MySqlCommand cmd = new MySqlCommand(q, cn);
-                    int i = cmd.ExecuteNonQuery();
-
-                    btnP_Save.Text = "Save";
-
-                    loadTree();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            else
+                txtD_MB_IP.Text = add.ToString();
         }
     }
 }
