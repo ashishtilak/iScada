@@ -38,6 +38,18 @@
     <Reference Include="DevExpress.Utils.v13.1, Version=13.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraBars.v13.1, Version=13.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraEditors.v13.1, Version=13.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="FtdAdapter">
+      <HintPath>..\nModBus\FtdAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\nModBus\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Modbus">
+      <HintPath>..\nModBus\Modbus.dll</HintPath>
+    </Reference>
+    <Reference Include="Modbus.Extensions">
+      <HintPath>..\nModBus\Modbus.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="MySql.Web.v20, Version=6.9.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -50,6 +62,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Unme.Common">
+      <HintPath>..\nModBus\Unme.Common.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="frmConn.cs">
