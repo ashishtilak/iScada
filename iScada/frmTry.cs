@@ -1,9 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Windows.Forms;
-using System.Collections.Generic;
 using System.Data;
 using System.Net;
+using System.Windows.Forms;
 
 namespace iScada
 {
@@ -22,6 +21,13 @@ namespace iScada
                 txtC_ConnName.Focus();
                 return;
             }
+            if (grpC_S7.Visible == true && txtC_CPUType.Text == "")
+            {
+                MessageBox.Show("Please enter CPU Type");
+                txtC_CPUType.Focus();
+                return;
+            }
+
             try
             {
                 using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
@@ -29,18 +35,19 @@ namespace iScada
                     cn.Open();
                     string q = "";
                     if (btnC_Save.Text == "Create")
-                        q = "insert into MastConn (ProjectID, ConnID, ConnName, ConnTypeID) " +
+                        q = "insert into MastConn (ProjectID, ConnID, ConnName, ConnTypeID, CPUType) " +
                                 "values (" +
                                 txtC_ProjID.Text + ", " +
                                 txtC_ConnID.Text + ", '" +
                                 txtC_ConnName.Text + "', " +
-                                txtC_ConnType.EditValue.ToString() + ")" ;
+                                txtC_ConnType.EditValue.ToString() + ", " +
+                                "'" + txtC_CPUType.Text + "')";
                     else
                         q = "update MastConn set " +
-                             " ConnName = '" + txtC_ConnName.Text.Trim() + "' " +
+                             " ConnName = '" + txtC_ConnName.Text.Trim() + "', " +
+                             " CPUType = '" + txtC_CPUType.Text + "' " +
                              "where ProjectID = " + txtC_ProjID.Text +
-                             " and ConnID = " + txtC_ConnID.Text ;
-
+                             " and ConnID = " + txtC_ConnID.Text;
 
                     MySqlCommand cmd = new MySqlCommand(q, cn);
                     int i = cmd.ExecuteNonQuery();
@@ -52,12 +59,23 @@ namespace iScada
                     MessageBox.Show("Updated.");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
         }
 
+        private void btnConn_Click(object sender, EventArgs e)
+        {
+            frmConn f = new frmConn();
+            f.Show();
+        }
+
+        /// <summary>
+        /// Save button for Device tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnD_Save_Click(object sender, EventArgs e)
         {
             if (txtD_DeviceName.Text.Trim() == "")
@@ -72,33 +90,68 @@ namespace iScada
                 {
                     cn.Open();
                     string q = "";
+                    MySqlCommand cmd;
+                    int i;
+
+                    //first create the record if in creation mode
+
                     if (btnD_Save.Text == "Create")
-                        q = "insert into MastDevice (ProjectID, ConnID, DeviceID, DeviceName, TimeOut, Delay, " +
-                                "MB_IP, MB_Port, MB_SlaveAddress" +
-                                " ) " +
-                                "values (" + txtD_ProjID.Text + ", " +
-                                txtD_ConnID.Text + ", " +
-                                txtD_DeviceID.Text + ", " +
-                                "'" + txtD_DeviceName.Text.Trim() + "', " +
-                                txtD_Timeout.Text + ", " +
-                                txtD_Delay.Text + ", " +
-                                "'" + txtD_MB_IP.Text + "', " +
-                                txtD_MB_Port.Text + ", " +
-                                txtD_MB_SlaveAddress.Text +
-                                " )";
-                    else
+                    {
+                        q = "insert into MastDevice (ProjectID, ConnID, DeviceID, DeviceName, TimeOut, Delay) " +
+                            "values (" + txtD_ProjID.Text + ", " +
+                            txtD_ConnID.Text + ", " +
+                            txtD_DeviceID.Text + ", " +
+                            "'" + txtD_DeviceName.Text.Trim() + "', " +
+                            txtD_Timeout.Text + ", " +
+                            txtD_Delay.Text + " " +
+                            " )";
+
+                        cmd = new MySqlCommand(q, cn);
+                        i = cmd.ExecuteNonQuery();
+                        q = "";
+                    }
+
+                    //change record according to the connection type
+
+                    if (tagD_ModbusTCP.PageVisible)
+                    {
                         q = "update MastDevice set " +
                             "DeviceName = '" + txtD_DeviceName.Text.Trim() + "', " +
                             "Timeout = " + txtD_Timeout.Text + ", " +
                             "Delay = " + txtD_Delay.Text + ", " +
-                            "MB_IP = '" + txtD_MB_IP.Text + "', " +
-                            "MB_Port = " + txtD_MB_Port.Text + ", " +
-                            "MB_SlaveAddress = " + txtD_MB_SlaveAddress.Text + " " +
+                            "IP = '" + txtD_MB_IP.Text + "', " +
+                            "Port = " + txtD_MB_Port.Text + ", " +
+                            "SlaveAddress = " + txtD_MB_SlaveAddress.Text + " " +
                             "where DeviceID = " + txtD_DeviceID.Text + "";
+                    }
+                    else if (tagD_ModbusSr.PageVisible)
+                    {
+                        q = "update MastDevice set " +
+                            "DeviceName = '" + txtD_DeviceName.Text.Trim() + "', " +
+                            "Timeout = " + txtD_Timeout.Text + ", " +
+                            "Delay = " + txtD_Delay.Text + ", " +
+                            "SL_BaudRate = " + txtD_SL_BaudRate.Text + ", " +
+                            "SL_Databits = " + txtD_SL_DataBits.Text + ", " +
+                            "SL_HandShake = '" + txtD_SL_HandShake.Text + "', " +
+                            "SL_Parity = '" + txtD_SL_Parity.Text + "', " +
+                            "SL_PortName = '" + txtD_SL_PortName.Text + "', " +
+                            "SL_RtsEnable = " + (chkD_RTSEnable.Checked == true ? 1 : 0) + ", " +
+                            "SL_StopBits = " + txtD_SL_StopBits.Text + " " +
+                            "where DeviceID = " + txtD_DeviceID.Text + "";
+                    }
+                    else if (tagD_SiemensS7TCP.PageVisible)
+                    {
+                        q = "update MastDevice set " +
+                            "DeviceName = '" + txtD_DeviceName.Text.Trim() + "', " +
+                            "Timeout = " + txtD_Timeout.Text + ", " +
+                            "Delay = " + txtD_Delay.Text + ", " +
+                            "IP = '" + txtD_S7_IP.Text + "', " +
+                            "Port = " + txtD_S7_Port.Text + " " +
+                            "where DeviceID = " + txtD_DeviceID.Text + "";
+                    }
 
-
-                    MySqlCommand cmd = new MySqlCommand(q, cn);
-                    int i = cmd.ExecuteNonQuery();
+                    cmd = new MySqlCommand(q, cn);
+                    i = cmd.ExecuteNonQuery();
 
                     btnD_Save.Text = "Save";
 
@@ -112,6 +165,11 @@ namespace iScada
             }
         }
 
+        /// <summary>
+        /// Save button for Project tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnP_Save_Click(object sender, EventArgs e)
         {
             if (txtP_ProjName.Text.Trim() == "")
@@ -133,7 +191,6 @@ namespace iScada
                     else
                         q = "update MastProject set ProjectName = '" + txtP_ProjName.Text.Trim() + "' where ProjectID = " + txtP_ProjID.Text;
 
-
                     MySqlCommand cmd = new MySqlCommand(q, cn);
                     int i = cmd.ExecuteNonQuery();
 
@@ -149,6 +206,11 @@ namespace iScada
             }
         }
 
+        /// <summary>
+        /// Save button for Tags tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnT_Save_Click(object sender, EventArgs e)
         {
             if (txtT_TagName.Text.Trim() == "")
@@ -166,31 +228,30 @@ namespace iScada
                     string q = "";
                     if (btnT_Save.Text == "Create")
                         q = "insert into MastTag (ProjectID, ConnID, DeviceID, " +
-                            "TagID, TagName, UOM, DataType, " + 
+                            "TagID, TagName, UOM, DataType, " +
                             "MBRegType, MBRegAddress, MBRegCount" +
                             ") " +
-                            "values (" 
-                            + txtT_ProjID.Text + ", " 
+                            "values ("
+                            + txtT_ProjID.Text + ", "
                             + txtT_ConnID.Text + ", "
                             + txtT_DeviceID.Text + ", "
                             + txtT_TagID.Text + ", "
-                            + "'" + txtT_TagName.Text + "', " 
+                            + "'" + txtT_TagName.Text + "', "
                             + "'" + txtT_UOM.Text + "', "
                             + "'" + txtT_Datatype.Text + "', "
-                            + txtT_RegTypeID.EditValue.ToString() + ", "
-                            + txtT_RegAddress.Text + ", "
-                            + txtT_RegCount.Text + " "
+                            + txtT_MBTRegTypeID.EditValue.ToString() + ", "
+                            + txtT_MBTRegAddress.Text + ", "
+                            + txtT_MBTRegCount.Text + " "
                             + ")";
                     else
                         q = "update MastTag set " +
                             "TagName = '" + txtT_TagName.Text.Trim() + "', "
                             + "UOM = '" + txtT_UOM.Text + "', "
                             + "Datatype = '" + txtT_Datatype.Text + "', "
-                            + "MBRegType = " + txtT_RegTypeID.EditValue.ToString() + ", "
-                            + "MBRegAddress = " + txtT_RegAddress.Text + ", "
-                            + "MBRegCount = " + txtT_RegCount.Text + " "
+                            + "MBRegType = " + txtT_MBTRegTypeID.EditValue.ToString() + ", "
+                            + "MBRegAddress = " + txtT_MBTRegAddress.Text + ", "
+                            + "MBRegCount = " + txtT_MBTRegCount.Text + " "
                             + "where TagID = " + txtT_TagID.Text;
-
 
                     MySqlCommand cmd = new MySqlCommand(q, cn);
                     int i = cmd.ExecuteNonQuery();
@@ -256,7 +317,7 @@ namespace iScada
 
         private void loadConnType()
         {
-            using(MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
             {
                 try
                 {
@@ -272,13 +333,11 @@ namespace iScada
                     txtC_ConnType.DataBindings.Add("EditValue", bs, "ConnTypeID");
                     txtC_ConnType.Properties.DataSource = bs;
 
-
                     txtC_ConnType.Properties.DisplayMember = "ConnType";
                     txtC_ConnType.Properties.ValueMember = "ConnTypeID";
                     txtC_ConnType.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoComplete;
-
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
                 }
@@ -301,8 +360,8 @@ namespace iScada
                     {
                         txtC_ConnName.Text = dr["ConnName"].ToString();
                         txtC_ConnType.EditValue = dr["ConnTypeID"];
+                        txtC_CPUType.Text = dr["CPUType"].ToString();
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -343,6 +402,7 @@ namespace iScada
 
         private void loadDeviceValues()
         {
+            //tagD_ModbusTCP
             using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
             {
                 try
@@ -359,12 +419,38 @@ namespace iScada
                         txtD_Timeout.Text = dr["Timeout"].ToString();
                         txtD_Delay.Text = dr["Delay"].ToString();
 
-                        //MODBUS Ethernet
-                        txtD_MB_IP.Text = dr["IP"].ToString();
-                        txtD_MB_Port.Text = dr["Port"].ToString();
-                        txtD_MB_SlaveAddress.Text = dr["SlaveAddress"].ToString();
+                        switch (Convert.ToInt32(dr["ConnTypeID"]))
+                        {
+                            case 1:
+                                tagD_ModbusTCP.PageVisible = true;
+                                tagD_ModbusSr.PageVisible = false;
+                                tagD_SiemensS7TCP.PageVisible = false;
 
+                                //MODBUS TCP properties
+                                txtD_MB_IP.Text = dr["IP"].ToString();
+                                txtD_MB_Port.Text = dr["Port"].ToString();
+                                txtD_MB_SlaveAddress.Text = dr["SlaveAddress"].ToString();
+                                break;
 
+                            case 2:
+                                tagD_ModbusTCP.PageVisible = false;
+                                tagD_ModbusSr.PageVisible = true;
+                                tagD_SiemensS7TCP.PageVisible = false;
+
+                                // TODO: MODBUS Serial Properties
+                                //
+                                break;
+
+                            case 3:
+                                tagD_ModbusTCP.PageVisible = false;
+                                tagD_ModbusSr.PageVisible = false;
+                                tagD_SiemensS7TCP.PageVisible = true;
+
+                                //S7 properties
+                                txtD_S7_IP.Text = dr["IP"].ToString();
+                                txtD_S7_Port.Text = dr["Port"].ToString();
+                                break;
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -389,12 +475,29 @@ namespace iScada
                     bs.DataSource = ds;
                     bs.DataMember = "RESULT";
 
-                    txtT_RegTypeID.DataBindings.Add("EditValue", bs, "RegTypeID");
-                    txtT_RegTypeID.Properties.DataSource = bs;
+                    //load combo ModbusTCP
+                    txtT_MBTRegTypeID.DataBindings.Add("EditValue", bs, "RegTypeID");
+                    txtT_MBTRegTypeID.Properties.DataSource = bs;
 
-                    txtT_RegTypeID.Properties.DisplayMember = "RegName";
-                    txtT_RegTypeID.Properties.ValueMember = "RegTypeID";
-                    txtT_RegTypeID.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoComplete;
+                    txtT_MBTRegTypeID.Properties.DisplayMember = "RegName";
+                    txtT_MBTRegTypeID.Properties.ValueMember = "RegTypeID";
+                    txtT_MBTRegTypeID.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoComplete;
+
+                    //load combo ModbusSerial
+                    txtT_MBSRegTypeID.DataBindings.Add("EditValue", bs, "RegTypeID");
+                    txtT_MBSRegTypeID.Properties.DataSource = bs;
+
+                    txtT_MBSRegTypeID.Properties.DisplayMember = "RegName";
+                    txtT_MBSRegTypeID.Properties.ValueMember = "RegTypeID";
+                    txtT_MBSRegTypeID.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoComplete;
+
+                    //load combo S7
+                    txtT_S7RegTypeID.DataBindings.Add("EditValue", bs, "RegTypeID");
+                    txtT_S7RegTypeID.Properties.DataSource = bs;
+
+                    txtT_S7RegTypeID.Properties.DisplayMember = "RegName";
+                    txtT_S7RegTypeID.Properties.ValueMember = "RegTypeID";
+                    txtT_S7RegTypeID.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoComplete;
                 }
                 catch (Exception ex)
                 {
@@ -402,6 +505,7 @@ namespace iScada
                 }
             }
         }
+
         /// <summary>
         /// Load Tags in tree view.
         /// </summary>
@@ -455,11 +559,57 @@ namespace iScada
                         txtT_TagName.Text = dr["TagName"].ToString();
                         txtT_UOM.Text = dr["UOM"].ToString();
                         txtT_Datatype.Text = dr["datatype"].ToString();
+                        txtT_MinVal.Text = dr["MinVal"].ToString();
+                        txtT_MaxVal.Text = dr["MaxVal"].ToString();
 
-                        //MODBUS Ethernet
-                        txtT_RegTypeID.EditValue = dr["RegTypeID"];
-                        txtT_RegAddress.Text = dr["RegAddress"].ToString();
-                        txtT_RegCount.Text = dr["RegCount"].ToString();
+                        switch (Convert.ToInt32(dr["ConnTypeID"]))
+                        {
+                            case 1:
+                                tagT_ModbusTCP.PageVisible = true;
+                                tagT_ModbusSr.PageVisible = false;
+                                tagT_SiemensS7TCP.PageVisible = false;
+
+                                //MODBUS TCP properties
+                                txtT_MBTRegTypeID.EditValue = dr["RegTypeID"];
+                                txtT_MBTRegAddress.Text = dr["RegAddress"].ToString();
+                                txtT_MBTRegCount.Text = dr["RegCount"].ToString();
+
+                                break;
+
+                            case 2:
+                                tagT_ModbusTCP.PageVisible = false;
+                                tagT_ModbusSr.PageVisible = true;
+                                tagT_SiemensS7TCP.PageVisible = false;
+
+                                // TODO: MODBUS Serial Properties
+                                txtT_MBSRegTypeID.EditValue = dr["RegTypeID"];
+                                txtT_MBSRegAddress.Text = dr["RegAddress"].ToString();
+                                txtT_MBSRegCount.Text = dr["RegCount"].ToString();
+
+                                break;
+
+                            case 3:
+                                tagT_ModbusTCP.PageVisible = false;
+                                tagT_ModbusSr.PageVisible = false;
+                                tagT_SiemensS7TCP.PageVisible = true;
+
+                                //S7 properties
+                                txtT_S7RegTypeID.EditValue = dr["RegTypeID"];
+                                txtT_S7RegAddress.Text = dr["RegAddress"].ToString();
+                                txtT_S7RegCount.Text = dr["RegCount"].ToString();
+                                txtT_S7DataBlock.Text = dr["RegDataBlock"].ToString();
+
+                                switch (dr["RegDataType"].ToString())
+                                {
+                                    case "D":
+                                        txtT_S7RegDataType.Text = "DWord"; break;
+                                    case "W":
+                                        txtT_S7RegDataType.Text = "Word"; break;
+                                    case "B":
+                                        txtT_S7RegDataType.Text = "Byte"; break;
+                                }
+                                break;
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -468,6 +618,7 @@ namespace iScada
                 }
             }
         }
+
         private void loadTree()
         {
             //clear tree
@@ -519,7 +670,7 @@ namespace iScada
 
             //get max conn number
 
-            using(MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr) )
+            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
             {
                 cn.Open();
                 MySqlCommand cmd = new MySqlCommand("Select ifNull(max(ConnID),1)+1 from MastConn ", cn);
@@ -543,6 +694,11 @@ namespace iScada
 
             //get max device number
 
+            txtD_ProjID.Text = trvMain.SelectedNode.Parent.Tag.ToString();
+            txtD_ProjName.Text = trvMain.SelectedNode.Parent.Text;
+            txtD_ConnID.Text = trvMain.SelectedNode.Tag.ToString();
+            txtD_ConnName.Text = trvMain.SelectedNode.Text;
+
             using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
             {
                 cn.Open();
@@ -550,20 +706,62 @@ namespace iScada
                 object i = cmd.ExecuteScalar();
 
                 txtD_DeviceID.Text = i.ToString();
+
+                cmd = new MySqlCommand("Select ConnTypeID from MastConn where ConnID=" + txtD_ConnID.Text + "", cn);
+                i = cmd.ExecuteScalar();
+
+                switch (Convert.ToInt32(i))
+                {
+                    case 1:
+                        tagD_ModbusTCP.PageVisible = true;
+                        tagD_ModbusSr.PageVisible = false;
+                        tagD_SiemensS7TCP.PageVisible = false;
+                        break;
+
+                    case 2:
+                        tagD_ModbusTCP.PageVisible = false;
+                        tagD_ModbusSr.PageVisible = true;
+                        tagD_SiemensS7TCP.PageVisible = false;
+                        break;
+
+                    case 3:
+                        tagD_ModbusTCP.PageVisible = false;
+                        tagD_ModbusSr.PageVisible = false;
+                        tagD_SiemensS7TCP.PageVisible = true;
+                        break;
+                }
             }
 
-            txtD_ProjID.Text = trvMain.SelectedNode.Parent.Tag.ToString();
-            txtD_ProjName.Text = trvMain.SelectedNode.Parent.Text;
-            txtD_ConnID.Text = trvMain.SelectedNode.Tag.ToString();
-            txtD_ConnName.Text = trvMain.SelectedNode.Text;
             txtD_DeviceName.Text = "";
             txtD_Timeout.Text = "";
 
-            txtD_Delay.Text = "";
-            txtD_MB_IP.Text = "";
-            txtD_MB_Port.Text = "";
-            txtD_MB_SlaveAddress.Text = "";
-            
+            //tagD_ModbusTCP
+            foreach (Control c in tagD_ModbusTCP.Controls)
+            {
+                if (c is TextBox)
+                {
+                    c.Text = "";
+                }
+            }
+
+            //tagD_ModbusSr
+            foreach (Control c in tagD_ModbusSr.Controls)
+            {
+                if (c is TextBox)
+                {
+                    c.Text = "";
+                }
+            }
+
+            //tagD_SiemensS7TCP
+            foreach (Control c in tagD_SiemensS7TCP.Controls)
+            {
+                if (c is TextBox)
+                {
+                    c.Text = "";
+                }
+            }
+
             btnD_Save.Text = "Create";
             txtD_DeviceName.Focus();
         }
@@ -581,7 +779,6 @@ namespace iScada
 
                 txtP_ProjID.Text = i.ToString();
             }
-
 
             txtP_ProjName.Text = "";
             txtP_ProjID.Focus();
@@ -602,7 +799,6 @@ namespace iScada
                 txtT_TagID.Text = i.ToString();
             }
 
-
             TreeNode D = trvMain.SelectedNode;
             TreeNode C = D.Parent;
             TreeNode P = C.Parent;
@@ -617,8 +813,8 @@ namespace iScada
             txtT_TagName.Text = "";
             txtT_UOM.Text = "";
             txtT_Datatype.Text = "";
-            txtT_RegAddress.Text = "";
-            txtT_RegCount.Text = "";
+            txtT_MBTRegAddress.Text = "";
+            txtT_MBTRegCount.Text = "";
 
             btnT_Save.Text = "Create";
             txtT_TagName.Focus();
@@ -628,6 +824,11 @@ namespace iScada
         {
             DevExpress.XtraTab.ViewInfo.ClosePageButtonEventArgs arg = e as DevExpress.XtraTab.ViewInfo.ClosePageButtonEventArgs;
             (arg.Page as DevExpress.XtraTab.XtraTabPage).PageVisible = false;
+        }
+
+        private void trvMain_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            //do nothing
         }
 
         private void trvMain_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -712,6 +913,18 @@ namespace iScada
             }
         }
 
+        private void txtC_ConnType_EditValueChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(txtC_ConnType.EditValue) == 3) //if this is S7 connection, then show the CPU Type
+            {
+                grpC_S7.Visible = true;
+            }
+            else
+            {
+                grpC_S7.Visible = false;
+            }
+        }
+
         private void txtD_MB_IP_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             IPAddress add;
@@ -722,12 +935,6 @@ namespace iScada
             }
             else
                 txtD_MB_IP.Text = add.ToString();
-        }
-
-        private void btnConn_Click(object sender, EventArgs e)
-        {
-            frmConn f = new frmConn();
-            f.Show();
         }
     }
 }
