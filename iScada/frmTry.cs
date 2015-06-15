@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using System.Net;
 using System.Windows.Forms;
+using System.ServiceProcess;
 
 namespace iScada
 {
@@ -67,8 +68,8 @@ namespace iScada
 
         private void btnConn_Click(object sender, EventArgs e)
         {
-            frmConn f = new frmConn();
-            f.Show();
+            frmConn f = new frmConn(Convert.ToInt32( txtT_TagID.Text.ToString()));
+            f.ShowDialog(this);
         }
 
         /// <summary>
@@ -226,10 +227,15 @@ namespace iScada
                 {
                     cn.Open();
                     string q = "";
+
+                    MySqlCommand cmd;
+                    int i = 0;
+
                     if (btnT_Save.Text == "Create")
+                    {
                         q = "insert into MastTag (ProjectID, ConnID, DeviceID, " +
                             "TagID, TagName, UOM, DataType, " +
-                            "MBRegType, MBRegAddress, MBRegCount" +
+                            "MinVal, MaxVal, IsLogged" +
                             ") " +
                             "values ("
                             + txtT_ProjID.Text + ", "
@@ -239,22 +245,61 @@ namespace iScada
                             + "'" + txtT_TagName.Text + "', "
                             + "'" + txtT_UOM.Text + "', "
                             + "'" + txtT_Datatype.Text + "', "
-                            + txtT_MBTRegTypeID.EditValue.ToString() + ", "
-                            + txtT_MBTRegAddress.Text + ", "
-                            + txtT_MBTRegCount.Text + " "
+                            + txtT_MinVal.EditValue.ToString() + ", "
+                            + txtT_MaxVal.EditValue.ToString() + ", "
+                            + (txtT_IsLogged.Checked ? 1 : 0) + " "
                             + ")";
-                    else
+                        cmd = new MySqlCommand(q, cn);
+                        i = cmd.ExecuteNonQuery();
+                    }
+
+                    if (tagT_ModbusTCP.PageVisible)
+                    {
                         q = "update MastTag set " +
                             "TagName = '" + txtT_TagName.Text.Trim() + "', "
                             + "UOM = '" + txtT_UOM.Text + "', "
                             + "Datatype = '" + txtT_Datatype.Text + "', "
-                            + "MBRegType = " + txtT_MBTRegTypeID.EditValue.ToString() + ", "
-                            + "MBRegAddress = " + txtT_MBTRegAddress.Text + ", "
-                            + "MBRegCount = " + txtT_MBTRegCount.Text + " "
+                            + "MinVal = " + txtT_MinVal.EditValue.ToString() + ", "
+                            + "MaxVal = " + txtT_MaxVal.EditValue.ToString() + ", "
+                            + "IsLogged = " + (txtT_IsLogged.Checked ? 1 : 0) + ", "
+                            + "RegTypeID = " + txtT_MBTRegTypeID.EditValue.ToString() + ", "
+                            + "RegAddress = " + txtT_MBTRegAddress.Text + ", "
+                            + "RegCount = " + txtT_MBTRegCount.Text + " "
                             + "where TagID = " + txtT_TagID.Text;
+                    }
+                    else if (tagT_ModbusSr.PageVisible)
+                    {
+                        q = "update MastTag set " +
+                            "TagName = '" + txtT_TagName.Text.Trim() + "', "
+                            + "UOM = '" + txtT_UOM.Text + "', "
+                            + "Datatype = '" + txtT_Datatype.Text + "', "
+                            + "MinVal = " + txtT_MinVal.EditValue.ToString() + ", "
+                            + "MaxVal = " + txtT_MaxVal.EditValue.ToString() + ", "
+                            + "IsLogged = " + (txtT_IsLogged.Checked ? 1 : 0) + ", "
+                            + "RegTypeID = " + txtT_MBSRegTypeID.EditValue.ToString() + ", "
+                            + "RegAddress = " + txtT_MBSRegAddress.Text + ", "
+                            + "RegCount = " + txtT_MBSRegCount.Text + " "
+                            + "where TagID = " + txtT_TagID.Text;
+                    }
+                    else if (tagT_SiemensS7TCP.PageVisible)
+                    {
+                        q = "update MastTag set " +
+                            "TagName = '" + txtT_TagName.Text.Trim() + "', "
+                            + "UOM = '" + txtT_UOM.Text + "', "
+                            + "Datatype = '" + txtT_Datatype.Text + "', "
+                            + "MinVal = " + txtT_MinVal.EditValue.ToString() + ", "
+                            + "MaxVal = " + txtT_MaxVal.EditValue.ToString() + ", "
+                            + "IsLogged = " + (txtT_IsLogged.Checked ? 1 : 0) + ", "
+                            + "RegTypeID = " + txtT_S7RegTypeID.EditValue.ToString() + ", "
+                            + "RegAddress = " + txtT_S7RegAddress.Text + ", "
+                            + "RegCount = " + txtT_S7RegCount.Text + ", "
+                            + "RegDataBlock = " + txtT_S7DataBlock.Text + ", "
+                            + "RegDataType = '" + txtT_S7RegDataType.ToString().Substring(0, 1) + "' "
+                            + "where TagID = " + txtT_TagID.Text;
+                    }
 
-                    MySqlCommand cmd = new MySqlCommand(q, cn);
-                    int i = cmd.ExecuteNonQuery();
+                    cmd = new MySqlCommand(q, cn);
+                    i = cmd.ExecuteNonQuery();
 
                     btnP_Save.Text = "Save";
 
@@ -561,6 +606,7 @@ namespace iScada
                         txtT_Datatype.Text = dr["datatype"].ToString();
                         txtT_MinVal.Text = dr["MinVal"].ToString();
                         txtT_MaxVal.Text = dr["MaxVal"].ToString();
+                        txtT_IsLogged.Checked = Convert.ToBoolean(dr["IsLogged"]);
 
                         switch (Convert.ToInt32(dr["ConnTypeID"]))
                         {
@@ -935,6 +981,165 @@ namespace iScada
             }
             else
                 txtD_MB_IP.Text = add.ToString();
+        }
+
+        private void btnServRestart_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ServiceController serCont = new ServiceController("iScadaPubService");
+                if (serCont.Status == ServiceControllerStatus.Stopped ||
+                    serCont.Status == ServiceControllerStatus.StopPending)
+                {
+                    serCont.Start();
+                    serCont.WaitForStatus(ServiceControllerStatus.Running);
+                }
+                else
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    Application.DoEvents();
+
+                    serCont.Stop();
+                    serCont.WaitForStatus(ServiceControllerStatus.Stopped);
+                    serCont.Start();
+                    serCont.WaitForStatus(ServiceControllerStatus.Running);
+                    Cursor.Current = Cursors.Default;
+                    Application.DoEvents();
+                }
+
+                serCont = new ServiceController("iScadaWeb");
+                if (serCont.Status == ServiceControllerStatus.Stopped ||
+                    serCont.Status == ServiceControllerStatus.StopPending)
+                {
+                    serCont.Start();
+                    serCont.WaitForStatus(ServiceControllerStatus.Running);
+                }
+                else
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    Application.DoEvents();
+
+                    serCont.Stop();
+                    serCont.WaitForStatus(ServiceControllerStatus.Stopped);
+                    serCont.Start();
+                    serCont.WaitForStatus(ServiceControllerStatus.Running);
+                    Cursor.Current = Cursors.Default;
+                    Application.DoEvents();
+                }
+
+                MessageBox.Show("Services Restarted...", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnServStart_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // first start publisher...
+                ServiceController serCont = new ServiceController("iScadaPubService");
+                if (serCont.Status == ServiceControllerStatus.Stopped ||
+                    serCont.Status == ServiceControllerStatus.StopPending)
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    Application.DoEvents();
+
+                    serCont.Start();
+                    serCont.WaitForStatus(ServiceControllerStatus.Running);
+
+                    Cursor.Current = Cursors.Default;
+                    Application.DoEvents();
+
+                    //MessageBox.Show("Service Started...", "Info", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    //MessageBox.Show("Service already running.", "Info", MessageBoxButtons.OK);
+                }
+
+
+                // Now do this for Web Pub
+                serCont = new ServiceController("iScadaWeb");
+                if (serCont.Status == ServiceControllerStatus.Stopped ||
+                    serCont.Status == ServiceControllerStatus.StopPending)
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    Application.DoEvents();
+
+                    serCont.Start();
+                    serCont.WaitForStatus(ServiceControllerStatus.Running);
+
+                    Cursor.Current = Cursors.Default;
+                    Application.DoEvents();
+
+                    //MessageBox.Show("Service Started...", "Info", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    //MessageBox.Show("Service already running.", "Info", MessageBoxButtons.OK);
+                }
+
+                MessageBox.Show("Services Started...", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnServStop_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // try stopping Pub service
+                ServiceController serCont = new ServiceController("iScadaPubService");
+                if (serCont.Status == ServiceControllerStatus.Stopped ||
+                    serCont.Status == ServiceControllerStatus.StopPending)
+                {
+                    //MessageBox.Show("Service already stopped...", "Info", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    Application.DoEvents();
+
+                    serCont.Stop();
+                    serCont.WaitForStatus(ServiceControllerStatus.Stopped);
+
+                    Cursor.Current = Cursors.Default;
+                    Application.DoEvents();
+
+                }
+
+                // now stop Web pub
+                serCont = new ServiceController("iScadaWeb");
+                if (serCont.Status == ServiceControllerStatus.Stopped ||
+                    serCont.Status == ServiceControllerStatus.StopPending)
+                {
+                    //MessageBox.Show("Service already stopped...", "Info", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    Application.DoEvents();
+
+                    serCont.Stop();
+                    serCont.WaitForStatus(ServiceControllerStatus.Stopped);
+
+                    Cursor.Current = Cursors.Default;
+                    Application.DoEvents();
+
+                }
+
+                MessageBox.Show("Service stopped...", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

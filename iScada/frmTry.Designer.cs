@@ -29,15 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Project");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Project");
             this.cmsProj = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuCreateProj = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.grpTree = new System.Windows.Forms.GroupBox();
             this.trvMain = new System.Windows.Forms.TreeView();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnStartPublisher = new System.Windows.Forms.Button();
-            this.btnConn = new System.Windows.Forms.Button();
             this.tabs = new DevExpress.XtraTab.XtraTabControl();
             this.tabProj = new DevExpress.XtraTab.XtraTabPage();
             this.btnP_Save = new System.Windows.Forms.Button();
@@ -131,6 +128,9 @@
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnConn = new System.Windows.Forms.Button();
+            this.label44 = new System.Windows.Forms.Label();
+            this.txtT_IsLogged = new System.Windows.Forms.CheckBox();
             this.label43 = new System.Windows.Forms.Label();
             this.txtT_MaxVal = new DevExpress.XtraEditors.TextEdit();
             this.label13 = new System.Windows.Forms.Label();
@@ -152,21 +152,22 @@
             this.txtT_ProjName = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.txtT_ProjID = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnServStop = new System.Windows.Forms.Button();
+            this.btnServStart = new System.Windows.Forms.Button();
+            this.btnServRestart = new System.Windows.Forms.Button();
             this.cmsConn = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuCreateConn = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsDevice = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuCreateDevice = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsTags = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuCreateTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtT_IsLogged = new System.Windows.Forms.CheckBox();
-            this.label44 = new System.Windows.Forms.Label();
             this.cmsProj.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.grpTree.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabs)).BeginInit();
             this.tabs.SuspendLayout();
             this.tabProj.SuspendLayout();
@@ -211,6 +212,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtT_MaxVal.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtT_MinVal.Properties)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.cmsConn.SuspendLayout();
             this.cmsDevice.SuspendLayout();
             this.cmsTags.SuspendLayout();
@@ -245,8 +247,8 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel2.Controls.Add(this.tabs);
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer1.Size = new System.Drawing.Size(869, 504);
             this.splitContainer1.SplitterDistance = 251;
             this.splitContainer1.TabIndex = 0;
@@ -269,58 +271,25 @@
             this.trvMain.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.trvMain.Location = new System.Drawing.Point(3, 18);
             this.trvMain.Name = "trvMain";
-            treeNode10.ContextMenuStrip = this.cmsProj;
-            treeNode10.Name = "Project";
-            treeNode10.Text = "Project";
+            treeNode1.ContextMenuStrip = this.cmsProj;
+            treeNode1.Name = "Project";
+            treeNode1.Text = "Project";
             this.trvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode10});
+            treeNode1});
             this.trvMain.Size = new System.Drawing.Size(245, 483);
             this.trvMain.TabIndex = 0;
             this.trvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvMain_AfterSelect);
             this.trvMain.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvMain_NodeMouseDoubleClick);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.btnStartPublisher);
-            this.groupBox3.Controls.Add(this.btnConn);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox3.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(0, 460);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(614, 44);
-            this.groupBox3.TabIndex = 2;
-            this.groupBox3.TabStop = false;
-            // 
-            // btnStartPublisher
-            // 
-            this.btnStartPublisher.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStartPublisher.Location = new System.Drawing.Point(14, 9);
-            this.btnStartPublisher.Name = "btnStartPublisher";
-            this.btnStartPublisher.Size = new System.Drawing.Size(113, 23);
-            this.btnStartPublisher.TabIndex = 1;
-            this.btnStartPublisher.Text = "Restart Services";
-            this.btnStartPublisher.UseVisualStyleBackColor = true;
-            // 
-            // btnConn
-            // 
-            this.btnConn.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConn.Location = new System.Drawing.Point(533, 9);
-            this.btnConn.Name = "btnConn";
-            this.btnConn.Size = new System.Drawing.Size(75, 23);
-            this.btnConn.TabIndex = 0;
-            this.btnConn.Text = "Connect";
-            this.btnConn.UseVisualStyleBackColor = true;
-            this.btnConn.Click += new System.EventHandler(this.btnConn_Click);
             // 
             // tabs
             // 
             this.tabs.ClosePageButtonShowMode = DevExpress.XtraTab.ClosePageButtonShowMode.InAllTabPagesAndTabControlHeader;
             this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabs.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabs.Location = new System.Drawing.Point(0, 0);
+            this.tabs.Location = new System.Drawing.Point(0, 41);
             this.tabs.Name = "tabs";
             this.tabs.SelectedTabPage = this.tabProj;
-            this.tabs.Size = new System.Drawing.Size(614, 504);
+            this.tabs.Size = new System.Drawing.Size(614, 463);
             this.tabs.TabIndex = 1;
             this.tabs.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabProj,
@@ -338,7 +307,7 @@
             this.tabProj.Controls.Add(this.txtP_ProjID);
             this.tabProj.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabProj.Name = "tabProj";
-            this.tabProj.Size = new System.Drawing.Size(608, 476);
+            this.tabProj.Size = new System.Drawing.Size(608, 435);
             this.tabProj.Text = "Project";
             // 
             // btnP_Save
@@ -404,7 +373,7 @@
             this.tabConn.Controls.Add(this.txtC_ProjID);
             this.tabConn.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabConn.Name = "tabConn";
-            this.tabConn.Size = new System.Drawing.Size(608, 476);
+            this.tabConn.Size = new System.Drawing.Size(608, 435);
             this.tabConn.Text = "Connection";
             // 
             // grpC_S7
@@ -553,7 +522,7 @@
             this.tabDev.Controls.Add(this.groupBox2);
             this.tabDev.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabDev.Name = "tabDev";
-            this.tabDev.Size = new System.Drawing.Size(608, 476);
+            this.tabDev.Size = new System.Drawing.Size(608, 435);
             this.tabDev.Text = "Device";
             // 
             // tabs_Dev
@@ -563,7 +532,7 @@
             this.tabs_Dev.Location = new System.Drawing.Point(0, 186);
             this.tabs_Dev.Name = "tabs_Dev";
             this.tabs_Dev.SelectedTabPage = this.tagD_ModbusTCP;
-            this.tabs_Dev.Size = new System.Drawing.Size(608, 290);
+            this.tabs_Dev.Size = new System.Drawing.Size(608, 249);
             this.tabs_Dev.TabIndex = 17;
             this.tabs_Dev.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tagD_ModbusTCP,
@@ -580,7 +549,7 @@
             this.tagD_ModbusTCP.Controls.Add(this.txtD_MB_IP);
             this.tagD_ModbusTCP.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tagD_ModbusTCP.Name = "tagD_ModbusTCP";
-            this.tagD_ModbusTCP.Size = new System.Drawing.Size(602, 262);
+            this.tagD_ModbusTCP.Size = new System.Drawing.Size(602, 221);
             this.tagD_ModbusTCP.Text = "Modbus TCP";
             // 
             // txtD_MB_SlaveAddress
@@ -663,7 +632,7 @@
             this.tagD_ModbusSr.Controls.Add(this.label30);
             this.tagD_ModbusSr.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tagD_ModbusSr.Name = "tagD_ModbusSr";
-            this.tagD_ModbusSr.Size = new System.Drawing.Size(602, 262);
+            this.tagD_ModbusSr.Size = new System.Drawing.Size(602, 221);
             this.tagD_ModbusSr.Text = "Modbus Serial";
             // 
             // chkD_RTSEnable
@@ -843,7 +812,7 @@
             this.tagD_SiemensS7TCP.Controls.Add(this.txtD_S7_IP);
             this.tagD_SiemensS7TCP.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tagD_SiemensS7TCP.Name = "tagD_SiemensS7TCP";
-            this.tagD_SiemensS7TCP.Size = new System.Drawing.Size(602, 262);
+            this.tagD_SiemensS7TCP.Size = new System.Drawing.Size(602, 221);
             this.tagD_SiemensS7TCP.Text = "Siements S7 TCP";
             // 
             // txtD_S7_Port
@@ -1072,7 +1041,7 @@
             this.tabTag.Controls.Add(this.groupBox1);
             this.tabTag.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabTag.Name = "tabTag";
-            this.tabTag.Size = new System.Drawing.Size(608, 476);
+            this.tabTag.Size = new System.Drawing.Size(608, 435);
             this.tabTag.Text = "Tag";
             // 
             // tabs_Tag
@@ -1082,7 +1051,7 @@
             this.tabs_Tag.Location = new System.Drawing.Point(0, 223);
             this.tabs_Tag.Name = "tabs_Tag";
             this.tabs_Tag.SelectedTabPage = this.tagT_ModbusTCP;
-            this.tabs_Tag.Size = new System.Drawing.Size(608, 253);
+            this.tabs_Tag.Size = new System.Drawing.Size(608, 212);
             this.tabs_Tag.TabIndex = 0;
             this.tabs_Tag.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tagT_ModbusTCP,
@@ -1099,7 +1068,7 @@
             this.tagT_ModbusTCP.Controls.Add(this.label15);
             this.tagT_ModbusTCP.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tagT_ModbusTCP.Name = "tagT_ModbusTCP";
-            this.tagT_ModbusTCP.Size = new System.Drawing.Size(602, 225);
+            this.tagT_ModbusTCP.Size = new System.Drawing.Size(602, 184);
             this.tagT_ModbusTCP.Text = "Modbus TCP";
             // 
             // txtT_MBTRegCount
@@ -1180,7 +1149,7 @@
             this.tagT_ModbusSr.Controls.Add(this.label37);
             this.tagT_ModbusSr.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tagT_ModbusSr.Name = "tagT_ModbusSr";
-            this.tagT_ModbusSr.Size = new System.Drawing.Size(602, 225);
+            this.tagT_ModbusSr.Size = new System.Drawing.Size(602, 184);
             this.tagT_ModbusSr.Text = "Modbus Serial";
             // 
             // txtT_MBSRegCount
@@ -1265,7 +1234,7 @@
             this.tagT_SiemensS7TCP.Controls.Add(this.label40);
             this.tagT_SiemensS7TCP.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tagT_SiemensS7TCP.Name = "tagT_SiemensS7TCP";
-            this.tagT_SiemensS7TCP.Size = new System.Drawing.Size(602, 225);
+            this.tagT_SiemensS7TCP.Size = new System.Drawing.Size(602, 184);
             this.tagT_SiemensS7TCP.Text = "Siemens S7 TCP";
             // 
             // txtT_S7RegDataType
@@ -1387,6 +1356,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnConn);
             this.groupBox1.Controls.Add(this.label44);
             this.groupBox1.Controls.Add(this.txtT_IsLogged);
             this.groupBox1.Controls.Add(this.label43);
@@ -1417,6 +1387,37 @@
             this.groupBox1.Size = new System.Drawing.Size(608, 223);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
+            // 
+            // btnConn
+            // 
+            this.btnConn.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConn.Location = new System.Drawing.Point(515, 40);
+            this.btnConn.Name = "btnConn";
+            this.btnConn.Size = new System.Drawing.Size(75, 23);
+            this.btnConn.TabIndex = 49;
+            this.btnConn.Text = "Connect";
+            this.btnConn.UseVisualStyleBackColor = true;
+            this.btnConn.Click += new System.EventHandler(this.btnConn_Click);
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label44.Location = new System.Drawing.Point(10, 137);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(63, 14);
+            this.label44.TabIndex = 48;
+            this.label44.Text = "Tag Name:";
+            // 
+            // txtT_IsLogged
+            // 
+            this.txtT_IsLogged.AutoSize = true;
+            this.txtT_IsLogged.Location = new System.Drawing.Point(389, 136);
+            this.txtT_IsLogged.Name = "txtT_IsLogged";
+            this.txtT_IsLogged.Size = new System.Drawing.Size(115, 18);
+            this.txtT_IsLogged.TabIndex = 8;
+            this.txtT_IsLogged.Text = "Logging Enabled";
+            this.txtT_IsLogged.UseVisualStyleBackColor = true;
             // 
             // label43
             // 
@@ -1532,7 +1533,7 @@
             // txtT_TagID
             // 
             this.txtT_TagID.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtT_TagID.Location = new System.Drawing.Point(111, 107);
+            this.txtT_TagID.Location = new System.Drawing.Point(111, 106);
             this.txtT_TagID.Name = "txtT_TagID";
             this.txtT_TagID.ReadOnly = true;
             this.txtT_TagID.Size = new System.Drawing.Size(100, 22);
@@ -1628,6 +1629,52 @@
             this.txtT_ProjID.Size = new System.Drawing.Size(100, 22);
             this.txtT_ProjID.TabIndex = 0;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btnServStop);
+            this.groupBox3.Controls.Add(this.btnServStart);
+            this.groupBox3.Controls.Add(this.btnServRestart);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox3.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(0, 0);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(614, 41);
+            this.groupBox3.TabIndex = 1;
+            this.groupBox3.TabStop = false;
+            // 
+            // btnServStop
+            // 
+            this.btnServStop.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnServStop.Location = new System.Drawing.Point(123, 12);
+            this.btnServStop.Name = "btnServStop";
+            this.btnServStop.Size = new System.Drawing.Size(103, 23);
+            this.btnServStop.TabIndex = 3;
+            this.btnServStop.Text = "Stop Services";
+            this.btnServStop.UseVisualStyleBackColor = true;
+            this.btnServStop.Click += new System.EventHandler(this.btnServStop_Click);
+            // 
+            // btnServStart
+            // 
+            this.btnServStart.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnServStart.Location = new System.Drawing.Point(14, 12);
+            this.btnServStart.Name = "btnServStart";
+            this.btnServStart.Size = new System.Drawing.Size(103, 23);
+            this.btnServStart.TabIndex = 2;
+            this.btnServStart.Text = "Start Services";
+            this.btnServStart.UseVisualStyleBackColor = true;
+            this.btnServStart.Click += new System.EventHandler(this.btnServStart_Click);
+            // 
+            // btnServRestart
+            // 
+            this.btnServRestart.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnServRestart.Location = new System.Drawing.Point(232, 12);
+            this.btnServRestart.Name = "btnServRestart";
+            this.btnServRestart.Size = new System.Drawing.Size(103, 23);
+            this.btnServRestart.TabIndex = 1;
+            this.btnServRestart.Text = "Restart Services";
+            this.btnServRestart.UseVisualStyleBackColor = true;
+            this.btnServRestart.Click += new System.EventHandler(this.btnServRestart_Click);
+            // 
             // cmsConn
             // 
             this.cmsConn.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1676,26 +1723,6 @@
             this.mnuCreateTag.Text = "Create Tag";
             this.mnuCreateTag.Click += new System.EventHandler(this.mnuCreateTag_Click);
             // 
-            // txtT_IsLogged
-            // 
-            this.txtT_IsLogged.AutoSize = true;
-            this.txtT_IsLogged.Location = new System.Drawing.Point(389, 136);
-            this.txtT_IsLogged.Name = "txtT_IsLogged";
-            this.txtT_IsLogged.Size = new System.Drawing.Size(115, 18);
-            this.txtT_IsLogged.TabIndex = 8;
-            this.txtT_IsLogged.Text = "Logging Enabled";
-            this.txtT_IsLogged.UseVisualStyleBackColor = true;
-            // 
-            // label44
-            // 
-            this.label44.AutoSize = true;
-            this.label44.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label44.Location = new System.Drawing.Point(10, 137);
-            this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(63, 14);
-            this.label44.TabIndex = 48;
-            this.label44.Text = "Tag Name:";
-            // 
             // frmTry
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1712,7 +1739,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.grpTree.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tabs)).EndInit();
             this.tabs.ResumeLayout(false);
             this.tabProj.ResumeLayout(false);
@@ -1768,6 +1794,7 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtT_MaxVal.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtT_MinVal.Properties)).EndInit();
+            this.groupBox3.ResumeLayout(false);
             this.cmsConn.ResumeLayout(false);
             this.cmsDevice.ResumeLayout(false);
             this.cmsTags.ResumeLayout(false);
@@ -1858,8 +1885,6 @@
         private System.Windows.Forms.TextBox txtT_UOM;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.TextBox txtT_Datatype;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button btnConn;
         private DevExpress.XtraTab.XtraTabPage tagD_ModbusSr;
         private DevExpress.XtraTab.XtraTabPage tagD_SiemensS7TCP;
         private System.Windows.Forms.GroupBox grpC_S7;
@@ -1898,7 +1923,6 @@
         private System.Windows.Forms.Label label40;
         private DevExpress.XtraEditors.TextEdit txtT_S7DataBlock;
         private System.Windows.Forms.Label label41;
-        private System.Windows.Forms.Button btnStartPublisher;
         private System.Windows.Forms.Label label42;
         private DevExpress.XtraEditors.ComboBoxEdit txtT_S7RegDataType;
         private System.Windows.Forms.Label label43;
@@ -1907,5 +1931,10 @@
         private DevExpress.XtraEditors.TextEdit txtT_MinVal;
         private System.Windows.Forms.CheckBox txtT_IsLogged;
         private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btnServRestart;
+        private System.Windows.Forms.Button btnConn;
+        private System.Windows.Forms.Button btnServStop;
+        private System.Windows.Forms.Button btnServStart;
     }
 }

@@ -28,126 +28,97 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtTag = new DevExpress.XtraEditors.LookUpEdit();
-            this.txtIP = new System.Windows.Forms.TextBox();
-            this.txtSlaveID = new System.Windows.Forms.TextBox();
-            this.txtRegAdd = new System.Windows.Forms.TextBox();
+            DevExpress.XtraGauges.Core.Model.IndicatorState indicatorState5 = new DevExpress.XtraGauges.Core.Model.IndicatorState();
+            DevExpress.XtraGauges.Core.Model.IndicatorState indicatorState6 = new DevExpress.XtraGauges.Core.Model.IndicatorState();
+            this.gaugeControl1 = new DevExpress.XtraGauges.Win.GaugeControl();
+            this.stateIndicatorGauge1 = new DevExpress.XtraGauges.Win.Gauges.State.StateIndicatorGauge();
+            this.stateIndicatorComponent1 = new DevExpress.XtraGauges.Win.Gauges.State.StateIndicatorComponent();
+            this.btnClose = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnStart = new System.Windows.Forms.Button();
-            this.txtResult = new System.Windows.Forms.TextBox();
-            this.btnStop = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTag.Properties)).BeginInit();
+            this.txtVal = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.stateIndicatorGauge1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stateIndicatorComponent1)).BeginInit();
             this.SuspendLayout();
             // 
-            // txtTag
+            // gaugeControl1
             // 
-            this.txtTag.Location = new System.Drawing.Point(12, 12);
-            this.txtTag.Name = "txtTag";
-            this.txtTag.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.txtTag.Properties.ImmediatePopup = true;
-            this.txtTag.Size = new System.Drawing.Size(213, 20);
-            this.txtTag.TabIndex = 42;
-            this.txtTag.EditValueChanged += new System.EventHandler(this.txtTag_EditValueChanged);
+            this.gaugeControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.gaugeControl1.Gauges.AddRange(new DevExpress.XtraGauges.Base.IGauge[] {
+            this.stateIndicatorGauge1});
+            this.gaugeControl1.LayoutPadding = new DevExpress.XtraGauges.Core.Base.Thickness(1);
+            this.gaugeControl1.Location = new System.Drawing.Point(12, 12);
+            this.gaugeControl1.Name = "gaugeControl1";
+            this.gaugeControl1.Size = new System.Drawing.Size(37, 39);
+            this.gaugeControl1.TabIndex = 2;
             // 
-            // txtIP
+            // stateIndicatorGauge1
             // 
-            this.txtIP.Location = new System.Drawing.Point(12, 63);
-            this.txtIP.Name = "txtIP";
-            this.txtIP.Size = new System.Drawing.Size(100, 20);
-            this.txtIP.TabIndex = 43;
+            this.stateIndicatorGauge1.Bounds = new System.Drawing.Rectangle(1, 1, 35, 37);
+            this.stateIndicatorGauge1.Indicators.AddRange(new DevExpress.XtraGauges.Win.Gauges.State.StateIndicatorComponent[] {
+            this.stateIndicatorComponent1});
+            this.stateIndicatorGauge1.Name = "stateIndicatorGauge1";
             // 
-            // txtSlaveID
+            // stateIndicatorComponent1
             // 
-            this.txtSlaveID.Location = new System.Drawing.Point(118, 63);
-            this.txtSlaveID.Name = "txtSlaveID";
-            this.txtSlaveID.Size = new System.Drawing.Size(100, 20);
-            this.txtSlaveID.TabIndex = 43;
+            this.stateIndicatorComponent1.Center = new DevExpress.XtraGauges.Core.Base.PointF2D(124F, 124F);
+            this.stateIndicatorComponent1.Name = "siCompTag";
+            this.stateIndicatorComponent1.Size = new System.Drawing.SizeF(200F, 200F);
+            this.stateIndicatorComponent1.StateIndex = 0;
+            indicatorState5.Name = "stateRed";
+            indicatorState5.ShapeType = DevExpress.XtraGauges.Core.Model.StateIndicatorShapeType.ElectricLight2;
+            indicatorState6.Name = "stateGreen";
+            indicatorState6.ShapeType = DevExpress.XtraGauges.Core.Model.StateIndicatorShapeType.ElectricLight4;
+            this.stateIndicatorComponent1.States.AddRange(new DevExpress.XtraGauges.Core.Model.IIndicatorState[] {
+            indicatorState5,
+            indicatorState6});
             // 
-            // txtRegAdd
+            // btnClose
             // 
-            this.txtRegAdd.Location = new System.Drawing.Point(224, 63);
-            this.txtRegAdd.Name = "txtRegAdd";
-            this.txtRegAdd.Size = new System.Drawing.Size(100, 20);
-            this.txtRegAdd.TabIndex = 43;
+            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.Location = new System.Drawing.Point(317, 19);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 3;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 47);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(68, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(17, 13);
-            this.label1.TabIndex = 44;
-            this.label1.Text = "IP";
+            this.label1.Size = new System.Drawing.Size(89, 16);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Current value:";
             // 
-            // label2
+            // txtVal
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(115, 47);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
-            this.label2.TabIndex = 44;
-            this.label2.Text = "Slave";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(221, 47);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 13);
-            this.label3.TabIndex = 44;
-            this.label3.Text = "Holding Reg";
-            // 
-            // btnStart
-            // 
-            this.btnStart.Location = new System.Drawing.Point(347, 59);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 23);
-            this.btnStart.TabIndex = 45;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-            // 
-            // txtResult
-            // 
-            this.txtResult.Location = new System.Drawing.Point(12, 107);
-            this.txtResult.Multiline = true;
-            this.txtResult.Name = "txtResult";
-            this.txtResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtResult.Size = new System.Drawing.Size(312, 278);
-            this.txtResult.TabIndex = 46;
-            // 
-            // btnStop
-            // 
-            this.btnStop.Location = new System.Drawing.Point(428, 59);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(75, 23);
-            this.btnStop.TabIndex = 47;
-            this.btnStop.Text = "Stop";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.txtVal.AutoSize = true;
+            this.txtVal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtVal.Location = new System.Drawing.Point(163, 22);
+            this.txtVal.Name = "txtVal";
+            this.txtVal.Size = new System.Drawing.Size(82, 16);
+            this.txtVal.TabIndex = 6;
+            this.txtVal.Text = "connecting...";
             // 
             // frmConn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(694, 456);
-            this.Controls.Add(this.btnStop);
-            this.Controls.Add(this.txtResult);
-            this.Controls.Add(this.btnStart);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(404, 70);
+            this.ControlBox = false;
+            this.Controls.Add(this.txtVal);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtRegAdd);
-            this.Controls.Add(this.txtSlaveID);
-            this.Controls.Add(this.txtIP);
-            this.Controls.Add(this.txtTag);
+            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.gaugeControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "frmConn";
-            this.Text = "frmConn";
+            this.Text = "Tag connection information";
             this.Load += new System.EventHandler(this.frmConn_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.txtTag.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stateIndicatorGauge1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stateIndicatorComponent1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,15 +126,12 @@
 
         #endregion
 
-        private DevExpress.XtraEditors.LookUpEdit txtTag;
-        private System.Windows.Forms.TextBox txtIP;
-        private System.Windows.Forms.TextBox txtSlaveID;
-        private System.Windows.Forms.TextBox txtRegAdd;
+        private DevExpress.XtraGauges.Win.GaugeControl gaugeControl1;
+        private DevExpress.XtraGauges.Win.Gauges.State.StateIndicatorGauge stateIndicatorGauge1;
+        private DevExpress.XtraGauges.Win.Gauges.State.StateIndicatorComponent stateIndicatorComponent1;
+        private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.TextBox txtResult;
-        private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Label txtVal;
+
     }
 }
