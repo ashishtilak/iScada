@@ -162,6 +162,7 @@
             this.mnuCreateDevice = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsTags = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuCreateTag = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnServer = new System.Windows.Forms.Button();
             this.cmsProj.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -1631,6 +1632,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnServer);
             this.groupBox3.Controls.Add(this.btnServStop);
             this.groupBox3.Controls.Add(this.btnServStart);
             this.groupBox3.Controls.Add(this.btnServRestart);
@@ -1722,6 +1724,17 @@
             this.mnuCreateTag.Size = new System.Drawing.Size(130, 22);
             this.mnuCreateTag.Text = "Create Tag";
             this.mnuCreateTag.Click += new System.EventHandler(this.mnuCreateTag_Click);
+            // 
+            // btnServer
+            // 
+            this.btnServer.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnServer.Location = new System.Drawing.Point(341, 12);
+            this.btnServer.Name = "btnServer";
+            this.btnServer.Size = new System.Drawing.Size(103, 23);
+            this.btnServer.TabIndex = 4;
+            this.btnServer.Text = "Server Config";
+            this.btnServer.UseVisualStyleBackColor = true;
+            this.btnServer.Click += new System.EventHandler(this.btnServer_Click);
             // 
             // frmTry
             // 
@@ -1936,5 +1949,6 @@
         private System.Windows.Forms.Button btnConn;
         private System.Windows.Forms.Button btnServStop;
         private System.Windows.Forms.Button btnServStart;
+        private System.Windows.Forms.Button btnServer;
     }
 }

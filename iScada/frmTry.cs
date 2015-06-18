@@ -4,6 +4,8 @@ using System.Data;
 using System.Net;
 using System.Windows.Forms;
 using System.ServiceProcess;
+using System.Configuration;
+using iScada.Properties;
 
 namespace iScada
 {
@@ -1140,6 +1142,12 @@ namespace iScada
             {
                 MessageBox.Show("Error: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnServer_Click(object sender, EventArgs e)
+        {
+            frmConnStr f = new frmConnStr();
+            f.Show();
         }
     }
 }

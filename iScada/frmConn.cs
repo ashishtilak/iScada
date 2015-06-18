@@ -19,9 +19,14 @@ namespace iScada
             public int id;
             public string name;
             public int state;
+            public double minVal;
+            public double maxVal;
+            public string uom;
             public msg()
             {
                 dt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                minVal = 0.0;
+                maxVal = 0.0;
             }
         }
 
@@ -75,7 +80,7 @@ namespace iScada
             }
 
             stateIndicatorComponent1.StateIndex = value.state;
-            txtVal.Text = value.data.ToString();
+            txtVal.Text = value.data.ToString() + " " +value.uom ;
         }
 
         private void btnClose_Click(object sender, EventArgs e)

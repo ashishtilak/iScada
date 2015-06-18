@@ -44,8 +44,23 @@
     <Reference Include="FtdAdapter">
       <HintPath>..\nModBus\FtdAdapter.dll</HintPath>
     </Reference>
+    <Reference Include="IToolS">
+      <HintPath>..\packages\IToolS.3.3.0.21\lib\net20\IToolS.dll</HintPath>
+    </Reference>
+    <Reference Include="IToolS.Components">
+      <HintPath>..\packages\IToolS.Components.3.3.0.21\lib\net20\IToolS.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="IToolS.Data">
+      <HintPath>..\packages\IToolS.3.3.0.21\lib\net20\IToolS.Data.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\nModBus\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.ConnectionUI">
+      <HintPath>..\packages\DataConnectionDialog.1.2\Lib\Microsoft.Data.ConnectionUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.ConnectionUI.Dialog">
+      <HintPath>..\packages\DataConnectionDialog.1.2\Lib\Microsoft.Data.ConnectionUI.Dialog.dll</HintPath>
     </Reference>
     <Reference Include="Modbus">
       <HintPath>..\nModBus\Modbus.dll</HintPath>
@@ -67,7 +82,6 @@
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -84,6 +98,12 @@
     <Compile Include="frmConn.Designer.cs">
       <DependentUpon>frmConn.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmConnStr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConnStr.Designer.cs">
+      <DependentUpon>frmConnStr.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmTry.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +115,9 @@
     <Compile Include="Settings.cs" />
     <EmbeddedResource Include="frmConn.resx">
       <DependentUpon>frmConn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConnStr.resx">
+      <DependentUpon>frmConnStr.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTry.resx">
       <DependentUpon>frmTry.cs</DependentUpon>
@@ -109,7 +132,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

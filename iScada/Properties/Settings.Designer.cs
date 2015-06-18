@@ -35,5 +35,17 @@ namespace iScada.Properties {
                 this["cnStr"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string testSetting {
+            get {
+                return ((string)(this["testSetting"]));
+            }
+            set {
+                this["testSetting"] = value;
+            }
+        }
     }
 }
