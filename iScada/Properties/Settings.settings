@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="cnStr" Type="System.String" Scope="User">
-      <Value Profile="(Default)">server=localhost;userid=root;password=root;persistsecurityinfo=True;database=iscada;allowuservariables=True</Value>
+      <Value Profile="(Default)">server= localhost;port= 3306;userid= root;password= root;persistsecurityinfo=True;database=iscada;allowuservariables=True</Value>
     </Setting>
     <Setting Name="testSetting" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">server= localhost;port= 3306;userid= root;password= root;persistsecurityinfo=True;database=iscada;allowuservariables=True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

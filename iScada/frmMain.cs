@@ -9,9 +9,9 @@ using iScada.Properties;
 
 namespace iScada
 {
-    public partial class frmTry : Form
+    public partial class frmMain : Form
     {
-        public frmTry()
+        public frmMain()
         {
             InitializeComponent();
         }
@@ -33,7 +33,7 @@ namespace iScada
 
             try
             {
-                using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+                using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
                 {
                     cn.Open();
                     string q = "";
@@ -89,7 +89,7 @@ namespace iScada
             }
             try
             {
-                using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+                using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
                 {
                     cn.Open();
                     string q = "";
@@ -184,7 +184,7 @@ namespace iScada
 
             try
             {
-                using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+                using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
                 {
                     cn.Open();
                     string q = "";
@@ -225,7 +225,7 @@ namespace iScada
 
             try
             {
-                using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+                using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
                 {
                     cn.Open();
                     string q = "";
@@ -335,7 +335,7 @@ namespace iScada
         {
             try
             {
-                using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr.ToString()))
+                using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString.ToString()))
                 {
                     cn.Open();
                     MySqlCommand cmd = new MySqlCommand();
@@ -364,7 +364,7 @@ namespace iScada
 
         private void loadConnType()
         {
-            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
             {
                 try
                 {
@@ -393,7 +393,7 @@ namespace iScada
 
         private void loadConnValues()
         {
-            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
             {
                 try
                 {
@@ -421,7 +421,7 @@ namespace iScada
         {
             try
             {
-                using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr.ToString()))
+                using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
                 {
                     cn.Open();
                     MySqlCommand cmd = new MySqlCommand();
@@ -450,7 +450,7 @@ namespace iScada
         private void loadDeviceValues()
         {
             //tagD_ModbusTCP
-            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
             {
                 try
                 {
@@ -486,6 +486,14 @@ namespace iScada
 
                                 // TODO: MODBUS Serial Properties
                                 //
+                                txtD_SL_BaudRate.EditValue = dr["SL_BaudRate"];
+                                txtD_SL_DataBits.EditValue = dr["SL_DataBits"];
+                                txtD_SL_HandShake.EditValue = dr["SL_HandShake"].ToString();
+                                txtD_SL_Parity.EditValue = dr["SL_Parity"].ToString();
+                                txtD_SL_PortName.Text = dr["SL_PortName"].ToString();
+                                txtD_SL_StopBits.EditValue = dr["SL_StopBits"];
+                                chkD_RTSEnable.Checked = (Convert.ToInt32(dr["SL_RtsEnable"]) == 1 ? true : false);
+                                
                                 break;
 
                             case 3:
@@ -509,7 +517,7 @@ namespace iScada
 
         private void loadRegType()
         {
-            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
             {
                 try
                 {
@@ -563,7 +571,7 @@ namespace iScada
         {
             try
             {
-                using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr.ToString()))
+                using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString.ToString()))
                 {
                     cn.Open();
                     MySqlCommand cmd = new MySqlCommand();
@@ -591,7 +599,7 @@ namespace iScada
 
         private void loadTagValues()
         {
-            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
             {
                 try
                 {
@@ -684,7 +692,7 @@ namespace iScada
             //connect to mysql
             try
             {
-                using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr.ToString()))
+                using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString.ToString()))
                 {
                     cn.Open();
                     MySqlCommand cmd = new MySqlCommand();
@@ -718,7 +726,7 @@ namespace iScada
 
             //get max conn number
 
-            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
             {
                 cn.Open();
                 MySqlCommand cmd = new MySqlCommand("Select ifNull(max(ConnID),1)+1 from MastConn ", cn);
@@ -747,7 +755,7 @@ namespace iScada
             txtD_ConnID.Text = trvMain.SelectedNode.Tag.ToString();
             txtD_ConnName.Text = trvMain.SelectedNode.Text;
 
-            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
             {
                 cn.Open();
                 MySqlCommand cmd = new MySqlCommand("Select ifNull(max(DeviceID),1)+1 from MastDevice ", cn);
@@ -819,7 +827,7 @@ namespace iScada
             tabProj.PageVisible = true;
             tabs.SelectedTabPage = tabProj;
 
-            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
             {
                 cn.Open();
                 MySqlCommand cmd = new MySqlCommand("Select ifNull(max(ProjectID),1)+1 from MastProject ", cn);
@@ -838,7 +846,7 @@ namespace iScada
             tabTag.PageVisible = true;
             tabs.SelectedTabPage = tabTag;
 
-            using (MySqlConnection cn = new MySqlConnection(Properties.Settings.Default.cnStr))
+            using (MySqlConnection cn = new MySqlConnection(Globals.ConnectionString))
             {
                 cn.Open();
                 MySqlCommand cmd = new MySqlCommand("Select ifNull(max(TagID),1)+1 from MastTag ", cn);
@@ -1148,6 +1156,23 @@ namespace iScada
         {
             frmConnStr f = new frmConnStr();
             f.Show();
+        }
+
+        private void mnuConfigDB_Click(object sender, EventArgs e)
+        {
+            frmConnStr f = new frmConnStr();
+            f.Show();
+        }
+
+        private void mnuConfigServer_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuUser_Click(object sender, EventArgs e)
+        {
+            frmUser f = new frmUser();
+            f.ShowDialog(this);
         }
     }
 }

@@ -25,8 +25,8 @@ namespace iScada.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("server=localhost;userid=root;password=root;persistsecurityinfo=True;database=isca" +
-            "da;allowuservariables=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("server= localhost;port= 3306;userid= root;password= root;persistsecurityinfo=True" +
+            ";database=iscada;allowuservariables=True")]
         public string cnStr {
             get {
                 return ((string)(this["cnStr"]));
@@ -38,7 +38,8 @@ namespace iScada.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("server= localhost;port= 3306;userid= root;password= root;persistsecurityinfo=True" +
+            ";database=iscada;allowuservariables=True")]
         public string testSetting {
             get {
                 return ((string)(this["testSetting"]));
